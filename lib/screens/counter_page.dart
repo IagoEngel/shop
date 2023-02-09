@@ -1,6 +1,6 @@
 // ignore_for_file: avoid_print
-
 import 'package:flutter/material.dart';
+
 import '../providers/counter.dart';
 
 class CounterPage extends StatefulWidget {
