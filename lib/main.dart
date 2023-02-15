@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'models/cart.dart';
 import 'models/product_list.dart';
 // import 'providers/counter.dart';
 // import 'screens/counter_page.dart';
@@ -18,8 +19,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // return CounterProvider(
-    return ChangeNotifierProvider(
-      create: (context) => ProductList(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => ProductList(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => Cart(),
+        ),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
@@ -31,7 +39,7 @@ class MyApp extends StatelessWidget {
             fontFamily: 'Lato'),
         home: const ProductsOverviewScreen(),
         routes: {
-          AppRoutes.productDetail: (context) => const ProductDetailScreen(),
+          AppRoutes.productDetail: (_) => const ProductDetailScreen(),
           // AppRoutes.productDetail: (context) => const CounterPage(),
         },
       ),
