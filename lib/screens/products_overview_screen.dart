@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../components/app_drawer.dart';
 import '../components/badge.dart';
 import '../components/product_grid.dart';
 import '../models/cart.dart';
@@ -24,6 +25,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const AppDrawer(),
       appBar: AppBar(
         centerTitle: true,
         title: const Text('Minha loja!'),
