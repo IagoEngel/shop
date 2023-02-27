@@ -8,8 +8,10 @@ import 'models/product_list.dart';
 // import 'screens/counter_page.dart';
 import 'screens/cart_screen.dart';
 import 'screens/product_detail_screen.dart';
+import 'screens/product_form_screen.dart';
 import 'screens/products_overview_screen.dart';
 import 'screens/orders_screen.dart';
+import 'screens/products_screen.dart';
 import 'utils/app_routes.dart';
 
 void main() {
@@ -50,6 +52,8 @@ class MyApp extends StatelessWidget {
           // AppRoutes.productDetail: (context) => const CounterPage(),
           AppRoutes.cart: (_) => const CartScreen(),
           AppRoutes.orders: (_) => const OrdersScreen(),
+          AppRoutes.products: (_) => const ProductsScreen(),
+          AppRoutes.productForm: (_) => const ProductFormScreen(),
         },
       ),
     );
