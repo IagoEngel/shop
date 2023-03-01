@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../models/product.dart';
 import '../models/product_list.dart';
 
 class ProductFormScreen extends StatefulWidget {
@@ -24,6 +25,25 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
   void initState() {
     super.initState();
     _imageFocus.addListener(updateImage);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (_formData.isEmpty) {
+      final args = ModalRoute.of(context)?.settings.arguments;
+
+      if (args != null) {
+        Product product = args as Product;
+
+        _formData['id'] = product.id;
+        _formData['name'] = product.name;
+        _formData['description'] = product.description;
+        _formData['value'] = product.value;
+        _imageController.text = product.imageUrl;
+      }
+    }
   }
 
   @override
@@ -59,8 +79,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
 
     _formKey.currentState?.save();
 
-    Provider.of<ProductList>(context, listen: false)
-        .addProductFromData(_formData);
+    Provider.of<ProductList>(context, listen: false).saveProduct(_formData);
     Navigator.of(context).pop();
   }
 
@@ -84,6 +103,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
           child: ListView(
             children: [
               TextFormField(
+                initialValue: _formData['name']?.toString(),
                 decoration: const InputDecoration(labelText: 'Nome'),
                 textInputAction: TextInputAction.next,
                 onFieldSubmitted: (_) =>
@@ -104,6 +124,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                 },
               ),
               TextFormField(
+                initialValue: _formData['value']?.toString(),
                 decoration: const InputDecoration(labelText: 'Preço'),
                 focusNode: _priceFocus,
                 textInputAction: TextInputAction.next,
@@ -125,6 +146,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                 },
               ),
               TextFormField(
+                initialValue: _formData['description']?.toString(),
                 decoration: const InputDecoration(labelText: 'Descrição'),
                 focusNode: _descriptionFocus,
                 textInputAction: TextInputAction.next,
