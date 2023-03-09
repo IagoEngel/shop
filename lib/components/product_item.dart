@@ -66,7 +66,7 @@ class ProductItem extends StatelessWidget {
                   }
                 });
               },
-              color: Theme.of(context).errorColor,
+              color: Theme.of(context).colorScheme.error,
               icon: const Icon(Icons.delete),
             ),
           ],
