@@ -15,7 +15,6 @@ class AppDrawer extends StatelessWidget {
             automaticallyImplyLeading: false,
             title: const Text('Bem-vindo Usuário!'),
           ),
-          const Divider(),
           ListTile(
             leading: const Icon(Icons.shop),
             title: const Text('Loja'),

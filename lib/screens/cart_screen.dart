@@ -77,19 +77,21 @@ class _CartButtonState extends State<CartButton> {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: widget.cart.items.isEmpty
-          ? null
-          : () async {
-              setState(() => isLoading = true);
+    return isLoading
+        ? const CircularProgressIndicator()
+        : TextButton(
+            onPressed: widget.cart.items.isEmpty
+                ? null
+                : () async {
+                    setState(() => isLoading = true);
 
-              await Provider.of<OrderList>(context, listen: false)
-                  .addOrder(widget.cart);
+                    await Provider.of<OrderList>(context, listen: false)
+                        .addOrder(widget.cart);
 
-              widget.cart.clear();
-              setState(() => isLoading = false);
-            },
-      child: const Text('COMPRAR'),
-    );
+                    widget.cart.clear();
+                    setState(() => isLoading = false);
+                  },
+            child: const Text('COMPRAR'),
+          );
   }
 }
