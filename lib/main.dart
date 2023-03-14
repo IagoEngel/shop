@@ -6,6 +6,7 @@ import 'models/order_list.dart';
 import 'models/product_list.dart';
 // import 'providers/counter.dart';
 // import 'screens/counter_page.dart';
+import 'screens/auth_screen.dart';
 import 'screens/cart_screen.dart';
 import 'screens/product_detail_screen.dart';
 import 'screens/product_form_screen.dart';
@@ -47,6 +48,7 @@ class MyApp extends StatelessWidget {
             fontFamily: 'Lato'),
         // home: const ProductsOverviewScreen(),
         routes: {
+          AppRoutes.auth:(context) => const AuthScreen(),
           AppRoutes.home: (_) => const ProductsOverviewScreen(),
           AppRoutes.productDetail: (_) => const ProductDetailScreen(),
           // AppRoutes.productDetail: (context) => const CounterPage(),
