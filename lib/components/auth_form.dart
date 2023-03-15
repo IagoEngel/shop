@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../models/auth.dart';
 
 enum AuthMode { signup, login }
 
@@ -11,14 +14,52 @@ class AuthForm extends StatefulWidget {
 
 class _AuthFormState extends State<AuthForm> {
   final _passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
-  final _authMode = AuthMode.login;
-  Map<String, String> _authData = {
+  bool _isLoading = false;
+
+  AuthMode _authMode = AuthMode.login;
+  final Map<String, String> _authData = {
     'email': '',
     'password': '',
   };
 
-  void _submit() {}
+  bool _isLogin() => _authMode == AuthMode.login;
+
+  bool _isSignup() => _authMode == AuthMode.signup;
+
+  void _switchAuthMode() {
+    setState(() {
+      if (_isLogin()) {
+        _authMode = AuthMode.signup;
+      } else {
+        _authMode = AuthMode.login;
+      }
+    });
+  }
+
+  Future<void> _submit() async {
+    final isValid = _formKey.currentState?.validate() ?? false;
+
+    if (!isValid) {
+      return;
+    }
+
+    setState(() => _isLoading = true);
+
+    _formKey.currentState?.save();
+    Auth auth = Provider.of(context, listen: false);
+
+    if (_isLogin()) {
+      //LOGIN
+      await auth.login(_authData['email']!, _authData['password']!);
+    } else {
+      //REGISTER
+      await auth.signUp(_authData['email']!, _authData['password']!);
+    }
+
+    setState(() => _isLoading = false);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,14 +67,16 @@ class _AuthFormState extends State<AuthForm> {
 
     return Card(
       elevation: 8,
+      margin: const EdgeInsets.only(top: 24),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
       child: Container(
         padding: const EdgeInsets.all(16),
-        height: 320,
+        height: _isLogin() ? 310 : 400,
         width: deviceSize.width * 0.75,
         child: Form(
+          key: _formKey,
           child: Column(
             children: [
               TextFormField(
@@ -66,12 +109,12 @@ class _AuthFormState extends State<AuthForm> {
                   return null;
                 },
               ),
-              if (_authMode != AuthMode.login)
+              if (_isSignup())
                 TextFormField(
                   decoration:
                       const InputDecoration(labelText: 'Confirmar Senha'),
                   obscureText: true,
-                  validator: _authMode == AuthMode.login
+                  validator: _isLogin()
                       ? null
                       : (value) {
                           final password = value ?? '';
@@ -84,20 +127,29 @@ class _AuthFormState extends State<AuthForm> {
                         },
                 ),
               const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _submit,
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
+              if (_isLoading)
+                const CircularProgressIndicator()
+              else
+                ElevatedButton(
+                  onPressed: _submit,
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 30,
+                      vertical: 8,
+                    ),
                   ),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 30,
-                    vertical: 8,
+                  child: Text(
+                    _authMode == AuthMode.login ? 'ENTRAR' : 'REGISTRAR',
                   ),
                 ),
-                child: Text(
-                  _authMode == AuthMode.login ? 'ENTRAR' : 'REGISTRAR',
-                ),
+              const Spacer(),
+              TextButton(
+                onPressed: _switchAuthMode,
+                child:
+                    Text(_isLogin() ? 'DESEJA REGISTRAR?' : 'JÁ POSSUI CONTA?'),
               ),
             ],
           ),
