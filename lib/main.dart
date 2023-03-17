@@ -7,11 +7,10 @@ import 'models/order_list.dart';
 import 'models/product_list.dart';
 // import 'providers/counter.dart';
 // import 'screens/counter_page.dart';
-import 'screens/auth_screen.dart';
+import 'screens/auth_or_home.dart';
 import 'screens/cart_screen.dart';
 import 'screens/product_detail_screen.dart';
 import 'screens/product_form_screen.dart';
-import 'screens/products_overview_screen.dart';
 import 'screens/orders_screen.dart';
 import 'screens/products_screen.dart';
 import 'utils/app_routes.dart';
@@ -29,16 +28,24 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => ProductList(),
+          create: (_) => Auth(),
+        ),
+        ChangeNotifierProxyProvider<Auth, ProductList>(
+          create: (_) => ProductList('', []),
+          update: (context, auth, previousProductList) => ProductList(
+            auth.token ?? '',
+            previousProductList?.items ?? [],
+          ),
+        ),
+        ChangeNotifierProxyProvider<Auth, OrderList>(
+          create: (_) => OrderList('', []),
+          update: (context, auth, previousOrderList) => OrderList(
+            auth.token ?? '',
+            previousOrderList?.items ?? [],
+          ),
         ),
         ChangeNotifierProvider(
           create: (_) => Cart(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => OrderList(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => Auth(),
         ),
       ],
       child: MaterialApp(
@@ -52,8 +59,7 @@ class MyApp extends StatelessWidget {
             fontFamily: 'Lato'),
         // home: const ProductsOverviewScreen(),
         routes: {
-          AppRoutes.auth:(context) => const AuthScreen(),
-          AppRoutes.home: (_) => const ProductsOverviewScreen(),
+          AppRoutes.authOrHome: (_) => const AuthOrHomeScreen(),
           AppRoutes.productDetail: (_) => const ProductDetailScreen(),
           // AppRoutes.productDetail: (context) => const CounterPage(),
           AppRoutes.cart: (_) => const CartScreen(),
