@@ -14,6 +14,7 @@ import 'screens/product_form_screen.dart';
 import 'screens/orders_screen.dart';
 import 'screens/products_screen.dart';
 import 'utils/app_routes.dart';
+import 'utils/custom_route.dart';
 
 void main() {
   runApp(const MyApp());
@@ -54,11 +55,18 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
-            primarySwatch: Colors.purple,
-            colorScheme: const ColorScheme.light().copyWith(
-              secondary: Colors.deepOrange,
-            ),
-            fontFamily: 'Lato'),
+          primarySwatch: Colors.purple,
+          colorScheme: const ColorScheme.light().copyWith(
+            secondary: Colors.deepOrange,
+          ),
+          fontFamily: 'Lato',
+          pageTransitionsTheme: PageTransitionsTheme(
+            builders: {
+              TargetPlatform.iOS: CustomPageTransitionsBuilder(),
+              TargetPlatform.android: CustomPageTransitionsBuilder(),
+            },
+          ),
+        ),
         // home: const ProductsOverviewScreen(),
         routes: {
           AppRoutes.authOrHome: (_) => const AuthOrHomeScreen(),

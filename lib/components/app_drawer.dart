@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../models/auth.dart';
+// import '../screens/products_screen.dart';
 import '../utils/app_routes.dart';
+// import '../utils/custom_route.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
@@ -39,6 +41,12 @@ class AppDrawer extends StatelessWidget {
             onTap: () => Navigator.of(context).pushReplacementNamed(
               AppRoutes.products,
             ),
+            // Animação para rotas especificas
+            // onTap: () => Navigator.of(context).pushReplacement(
+            //   CustomRoute(
+            //     builder: (_) => const ProductsScreen(),
+            //   ),
+            // ),
           ),
           const Divider(),
           ListTile(
