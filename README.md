@@ -1,16 +1,13 @@
-# shop
+# Projeto Shop
 
-A new Flutter project.
+Quarto projeto apresentado no curso 'Aprenda Flutter e Desenvolva Apps Para Android e IOS 2022', disponível na Udemy. 
 
-## Getting Started
+Este projeto começou utilizando apenas o pacote provider para favoritar, adicionar, editar e comprar os produtos. Depois, ele evoluiu para utilizar o 'Realtime Database' e complementar estas ações. Com as regras modificadas no banco, cada usuário tem produtos favoritados e lista de compras diferentes.
 
-This project is a starting point for a Flutter application.
+O projeto usa o pacote http para fazer conexão com o Firebase ao autenticar o usuário e registrar as mudanças dos produtos. 
 
-A few resources to get you started if this is your first Flutter project:
+O shared_preferences é necessário para manter o usuário logado no app, enquanto o tempo de expiração não acaba.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Eu também aprendi a utilizar melhor os controllers e widgets de animação neste curso.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![Gif apresentando o projeto](shop.gif)
